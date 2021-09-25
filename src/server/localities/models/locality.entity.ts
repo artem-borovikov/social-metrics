@@ -1,7 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { LocalityUnemployed } from './locality-unemployed.entity';
-import { LocalityDisabled } from './locality-disabled.entity';
-import { LocalityMigration } from './locality-migration.entity';
 import { LocalityPopulation } from './locality-population.entity';
 
 @Entity()
@@ -35,12 +33,6 @@ export class Locality {
 
   @OneToMany(() => LocalityUnemployed, (unemployed) => unemployed.locality)
   unemployed: LocalityUnemployed[];
-
-  @OneToMany(() => LocalityDisabled, (disabled) => disabled.locality)
-  disabled: LocalityDisabled[];
-
-  @OneToMany(() => LocalityMigration, (migration) => migration.locality)
-  migration: LocalityMigration[];
 
   @OneToMany(() => LocalityPopulation, (population) => population.locality)
   population: LocalityPopulation[];

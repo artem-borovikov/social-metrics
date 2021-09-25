@@ -13,6 +13,12 @@
   padding: 0 1rem;
 }
 
+.subtitle {
+  display: block;
+  color: rgb(131, 131, 131);
+  margin-bottom: 12px;
+}
+
 .table {
   border: 1px solid #eee;
   table-layout: fixed;

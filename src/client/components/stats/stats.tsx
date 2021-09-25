@@ -28,7 +28,7 @@ export function Stats() {
         <div>
           <h1>Статистика по регионам Удмуртия</h1>
         </div>
-        {/* <div className="filter-select">
+        <div className="filter-select">
           <Select
             value={
               filter
@@ -47,24 +47,40 @@ export function Stats() {
             }}
             options={[
               {
-                value: 'filter1',
-                label: 'Фильтр 1',
+                value: 'bornOutOfWedlockScore',
+                label: 'Рожденные вне брака',
               },
               {
-                value: 'filter2',
-                label: 'Фильтр 2',
+                value: 'deathsScore',
+                label: 'Смерти',
               },
               {
-                value: 'filter3',
-                label: 'Фильтр 3',
+                value: 'disabledScore',
+                label: 'Инвалиды',
               },
               {
-                value: 'filter4',
-                label: 'Фильтр 4',
+                value: 'divorcedScore',
+                label: 'Разводы',
+              },
+              {
+                value: 'largeFamiliesScore',
+                label: 'Многодетные семьи',
+              },
+              {
+                value: 'poorLargeFamiliesScore',
+                label: 'Многодетные семьи (низкий доход)',
+              },
+              {
+                value: 'singleParentFamiliesScore',
+                label: 'Неполные семьи',
+              },
+              {
+                value: 'unemployedScore',
+                label: 'Безработные',
               },
             ]}
           />
-        </div> */}
+        </div>
       </div>
 
       <div className="container">
@@ -81,20 +97,28 @@ export function Stats() {
                 ],
               }}
             >
-              {localities.map((locality) => (
-                <Circle
-                  key={locality.id}
-                  geometry={[[locality.lat, locality.lon], 3000]}
-                  options={{
-                    fillColor: rating[locality.unemployedScore - 1],
-                    strokeWidth: 0,
-                    opacity: 0.5,
-                  }}
-                  onClick={() => {
-                    setCurrentLocality(locality);
-                  }}
-                />
-              ))}
+              {localities.map((locality) => {
+                const scoreType = filter
+                  ? locality[filter.id] - 1
+                  : locality.unemployedScore - 1;
+
+                console.log(scoreType);
+
+                return (
+                  <Circle
+                    key={locality.id}
+                    geometry={[[locality.lat, locality.lon], 3000]}
+                    options={{
+                      fillColor: rating[scoreType],
+                      strokeWidth: 0,
+                      opacity: 0.6,
+                    }}
+                    onClick={() => {
+                      setCurrentLocality(locality);
+                    }}
+                  />
+                );
+              })}
             </Map>
           </YMaps>
         </div>
@@ -103,24 +127,56 @@ export function Stats() {
           <div className="stats">
             <h2>
               {currentLocality.shortName} {currentLocality.name}{' '}
-              {/* <Link to="/list">
-                <Button use="primary">Оказать адресную поддержку </Button>
-              </Link> */}
             </h2>
-            <span>Население: {currentLocality?.populationCount}</span>
+            <span className="subtitle">
+              Население: {currentLocality?.populationCount?.toLocaleString()}{' '}
+              чел
+            </span>
             <table className="table">
               <thead>
-                <th>Показатель</th>
+                <th>Показатель на {new Date().toLocaleDateString()}</th>
                 <th>Значение</th>
-                <th>Балл</th>
               </thead>
               <tbody>
                 <tr>
-                  {currentLocality?.population?.populationCount}
-                  {/* {JSON.stringify(currentLocality)} */}
-                  <td>Безработица</td>
+                  <td>Безработные</td>
                   <td>{currentLocality.unemployedCount}</td>
-                  <td>{currentLocality.unemployedScore}</td>
+                </tr>
+                <tr>
+                  <td>Рожденные дети</td>
+                  <td>{currentLocality.childrenCount}</td>
+                </tr>
+                <tr>
+                  <td>Кол-во разводов</td>
+                  <td>{currentLocality.divorcesCount}</td>
+                </tr>
+                <tr>
+                  <td>Кол-во семей</td>
+                  <td>{currentLocality.familiesCount}</td>
+                </tr>
+                <tr>
+                  <td>Кол-во детей, рожденных вне брака</td>
+                  <td>{currentLocality.bornOutOfWedlockCount}</td>
+                </tr>
+                <tr>
+                  <td>Кол-во смертей</td>
+                  <td>{currentLocality.deathsCount}</td>
+                </tr>
+                <tr>
+                  <td>Кол-во инвалидов</td>
+                  <td>{currentLocality.disabledCount}</td>
+                </tr>
+                <tr>
+                  <td>Кол-во многодетных семей</td>
+                  <td>{currentLocality.largeFamiliesCount}</td>
+                </tr>
+                <tr>
+                  <td>Кол-во многодетных семей с доходом ниже МРОТ</td>
+                  <td>{currentLocality.poorLargeFamiliesCount}</td>
+                </tr>
+                <tr>
+                  <td>Кол-во неполных семей</td>
+                  <td>{currentLocality.singleParentFamiliesCount}</td>
                 </tr>
               </tbody>
             </table>
