@@ -1,0 +1,15 @@
+form.form {
+  box-sizing: border-box;
+  display: block;
+  padding: 0 1rem;
+  max-width: 800px;
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+}
+
+.form .success {
+  padding: 1rem;
+  line-height: 24px;
+  border-radius: 4px;
+}
