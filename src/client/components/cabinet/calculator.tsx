@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Button,
   Input,
-  DateInput,
   RadioGroup,
   Gapped,
   Radio,
@@ -13,14 +12,17 @@ import './calculator.css';
 export function Calculator() {
   const initialForm = {
     personName: undefined,
+    gender: 1,
+    familyState: 0,
     passportNumber: undefined,
     childrenCount: undefined,
     birthDate: undefined,
     incomeLevel: 2,
     saveResult: false,
     notifications: false,
-    disabledPeople: false,
+    disabledPeople: null,
     personPhone: undefined,
+    healthRestricts: 0,
   };
 
   const [form, setForm] = React.useState(initialForm);
@@ -76,19 +78,39 @@ export function Calculator() {
               </label>
             </p>
             <p>
-              <label>
-                <Input
-                  name="personPhone"
-                  placeholder="Номер телефона"
-                  mask={`+7 (999)-999-99-99`}
-                  value={form.personPhone}
-                  onChange={(e) => {
-                    handleForm({
-                      [e.target.name]: e.target.value,
-                    });
-                  }}
-                />
-              </label>
+              <RadioGroup
+                name="gender"
+                onValueChange={(value) => {
+                  handleForm({
+                    gender: Number(value),
+                  });
+                }}
+                value={String(form.gender)}
+              >
+                <b>Ваш пол</b>
+                <Gapped gap={15}>
+                  <Radio value="1">Муж.</Radio>
+                  <Radio value="2">Жен.</Radio>
+                </Gapped>
+              </RadioGroup>
+            </p>
+            <p>
+              <RadioGroup
+                name="familyState"
+                onValueChange={(value) => {
+                  handleForm({
+                    familyState: Number(value),
+                  });
+                }}
+                value={String(form.familyState)}
+              >
+                <b>Ваше семейное положение</b>
+                <Gapped gap={15}>
+                  <Radio value="0">Холост / Не замужем</Radio>
+                  <Radio value="1">Женат / Замужем</Radio>
+                  <Radio value="2">Разведен</Radio>
+                </Gapped>
+              </RadioGroup>
             </p>
             <p>
               <label>
@@ -108,7 +130,23 @@ export function Calculator() {
             <p>
               <label>
                 <Input
-                  placeholder="Кол-во детей"
+                  name="gender"
+                  placeholder="Номер телефона"
+                  mask={`+7 (999)-999-99-99`}
+                  value={form.personPhone}
+                  onChange={(e) => {
+                    handleForm({
+                      [e.target.name]: e.target.value,
+                    });
+                  }}
+                />
+              </label>
+            </p>
+
+            <p>
+              <label>
+                <Input
+                  placeholder="Кол-во детей до 18 лет"
                   mask={'99'}
                   name="childrenCount"
                   value={form.childrenCount}
@@ -120,56 +158,44 @@ export function Calculator() {
                 />
               </label>
             </p>
+
+            <p>
+              <RadioGroup
+                name="healthRestricts"
+                onValueChange={(value) => {
+                  handleForm({
+                    healthRestricts: Number(value),
+                  });
+                }}
+                value={String(form.healthRestricts)}
+              >
+                <strong>Ваше состояние здоровья</strong>
+                <Gapped gap={15}>
+                  <Radio value="1">Инвалид 1 гр</Radio>
+                  <Radio value="2">Инвалид 2 гр</Radio>
+                  <Radio value="3">Инвалид 3 гр</Radio>
+                  <Radio value="0">Нет</Radio>
+                </Gapped>
+              </RadioGroup>
+            </p>
+
+            <strong>Наличие людей, за которыми необходим уход (число)</strong>
             <p>
               <label>
-                <p>Дата рождения</p>
-                <DateInput
-                  value={form.birthDate}
-                  onValueChange={(value) => {
+                <Input
+                  placeholder=""
+                  mask={'99'}
+                  name="disabledPeople"
+                  value={String(form.disabledPeople)}
+                  onChange={(e) => {
                     handleForm({
-                      birthDate: value,
+                      [e.target.name]: e.target.value,
                     });
                   }}
                 />
               </label>
             </p>
 
-            <p>
-              <RadioGroup
-                name="incomeLevel"
-                onValueChange={(value) => {
-                  handleForm({
-                    incomeLevel: Number(value),
-                  });
-                }}
-                value={String(form.incomeLevel)}
-              >
-                <b>Как вы оцениваете доходы Вашей семьи?</b>
-                <Gapped gap={15}>
-                  <Radio value="1">Низкий</Radio>
-                  <Radio value="2">Средний</Radio>
-                  <Radio value="3">Высокий</Radio>
-                </Gapped>
-              </RadioGroup>
-            </p>
-
-            <p>
-              <RadioGroup
-                name="disabledPeople"
-                onValueChange={(value) => {
-                  handleForm({
-                    disabledPeople: value === '1',
-                  });
-                }}
-                value={form.disabledPeople ? '1' : '0'}
-              >
-                <b>Есть ли в Вашей семье люди с ограниченными возможностями?</b>
-                <Gapped gap={15}>
-                  <Radio value="1">Есть</Radio>
-                  <Radio value="0">Нет</Radio>
-                </Gapped>
-              </RadioGroup>
-            </p>
             <p>
               <Checkbox
                 checked={form.saveResult}
