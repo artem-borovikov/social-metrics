@@ -2,7 +2,7 @@ form.form {
   box-sizing: border-box;
   display: block;
   padding: 0 1rem;
-  max-width: 800px;
+  min-width: 800px;
   position: absolute;
   transform: translateX(-50%);
   left: 50%;

@@ -17,8 +17,10 @@ export function Calculator() {
     childrenCount: undefined,
     birthDate: undefined,
     incomeLevel: 2,
-    sendToServer: false,
+    saveResult: false,
+    notifications: false,
     disabledPeople: false,
+    personPhone: undefined,
   };
 
   const [form, setForm] = React.useState(initialForm);
@@ -76,6 +78,21 @@ export function Calculator() {
             <p>
               <label>
                 <Input
+                  name="personPhone"
+                  placeholder="Номер телефона"
+                  mask={`+7 (999)-999-99-99`}
+                  value={form.personPhone}
+                  onChange={(e) => {
+                    handleForm({
+                      [e.target.name]: e.target.value,
+                    });
+                  }}
+                />
+              </label>
+            </p>
+            <p>
+              <label>
+                <Input
                   name="passportNumber"
                   placeholder="Номер пасспорта"
                   mask={'99 99 999999'}
@@ -122,10 +139,10 @@ export function Calculator() {
                 name="incomeLevel"
                 onValueChange={(value) => {
                   handleForm({
-                    incomeLevel: value,
+                    incomeLevel: Number(value),
                   });
                 }}
-                defaultValue={initialForm.incomeLevel}
+                value={String(form.incomeLevel)}
               >
                 <b>Как вы оцениваете доходы Вашей семьи?</b>
                 <Gapped gap={15}>
@@ -155,14 +172,26 @@ export function Calculator() {
             </p>
             <p>
               <Checkbox
-                checked={form.sendToServer}
+                checked={form.saveResult}
                 onValueChange={(value) => {
                   handleForm({
-                    sendToServer: value,
+                    saveResult: value,
                   });
                 }}
               >
                 Я хочу получить поддержку
+              </Checkbox>
+            </p>
+            <p>
+              <Checkbox
+                checked={form.notifications}
+                onValueChange={(value) => {
+                  handleForm({
+                    notifications: value,
+                  });
+                }}
+              >
+                Я хочу получать SMS-уведомления о мерах поддержки
               </Checkbox>
             </p>
             <p>

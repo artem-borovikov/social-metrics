@@ -4,35 +4,31 @@ import './stats.css';
 import Select from 'react-select';
 
 export function Stats() {
-  const [localities, setLocalities] = React.useState([
-    {
-      id: 1,
-      name: 'Ижевск',
-      shortName: 'г',
-      population: 1200000,
-      lat: 56.11,
-      lon: 54.12,
-      rating: 15,
-    },
-  ]);
+  const [localities, setLocalities] = React.useState([]);
 
   const [filter, setFilter] = React.useState<any>();
 
-  enum Rating {
-    red = '#eb3434',
-    yellow = '#ebe234',
-    green = '#40eb34',
-  }
-
   const [currentLocality, setCurrentLocality] = React.useState<any>(undefined);
+
+  const rating = ['#40eb34', '#ebe234', '#eb3434'];
+
+  React.useEffect(() => {
+    fetch('http://localhost:5000/localities')
+      .then((res) => {
+        res.json().then((res) => {
+          setLocalities(res);
+        });
+      })
+      .catch(console.error);
+  }, [filter]);
 
   return (
     <>
       <div className="title">
         <div>
-          <h1>Статистика по регионам</h1>
+          <h1>Статистика по регионам Удмуртия</h1>
         </div>
-        <div className="filter-select">
+        {/* <div className="filter-select">
           <Select
             value={
               filter
@@ -68,7 +64,7 @@ export function Stats() {
               },
             ]}
           />
-        </div>
+        </div> */}
       </div>
 
       <div className="container">
@@ -80,19 +76,19 @@ export function Stats() {
               state={{
                 zoom: 9,
                 center: [
-                  currentLocality?.lat || 55,
-                  currentLocality?.lon || 55,
+                  currentLocality?.lat || 56.85364272620877,
+                  currentLocality?.lon || 53.232705410079454,
                 ],
-                // controls: ['zoomControl'],
               }}
             >
               {localities.map((locality) => (
                 <Circle
-                  geometry={[[locality.lat, locality.lon], 1000]}
+                  key={locality.id}
+                  geometry={[[locality.lat, locality.lon], 3000]}
                   options={{
-                    fillColor: Rating.green,
-                    strokeColor: Rating.green,
-                    strokeWidth: 5,
+                    fillColor: rating[locality.unemployedScore - 1],
+                    strokeWidth: 0,
+                    opacity: 0.5,
                   }}
                   onClick={() => {
                     setCurrentLocality(locality);
@@ -111,35 +107,21 @@ export function Stats() {
                 <Button use="primary">Оказать адресную поддержку </Button>
               </Link> */}
             </h2>
-
+            <span>Население: {currentLocality?.populationCount}</span>
             <table className="table">
               <thead>
                 <th>Показатель</th>
-                <th>Абсолютное значение</th>
+                <th>Значение</th>
                 <th>Балл</th>
               </thead>
               <tbody>
                 <tr>
+                  {currentLocality?.population?.populationCount}
+                  {/* {JSON.stringify(currentLocality)} */}
                   <td>Безработица</td>
-                  <td>12500 чел</td>
-                  <td>1</td>
+                  <td>{currentLocality.unemployedCount}</td>
+                  <td>{currentLocality.unemployedScore}</td>
                 </tr>
-                <tr>
-                  <td>Многодетные семьи</td>
-                  <td>12500 чел</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>Безработица</td>
-                  <td>12500 чел</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>Безработица</td>
-                  <td>12500 чел</td>
-                  <td>1</td>
-                </tr>
-                <tr></tr>
               </tbody>
             </table>
           </div>
