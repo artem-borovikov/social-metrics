@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { LocalityUnemployed } from './locality-unemployed.entity';
 import { LocalityDisabled } from './locality-disabled.entity';
-import {LocalityMigration} from "./locality-migration.entity";
-import {LocalityPopulation} from "./locality-population.entity";
+import { LocalityMigration } from './locality-migration.entity';
+import { LocalityPopulation } from './locality-population.entity';
 
 @Entity()
 export class Locality {
@@ -22,26 +22,26 @@ export class Locality {
   @Column({
     type: 'numeric',
     precision: 9,
-    scale: 6
+    scale: 6,
   })
   lat: number;
 
   @Column({
     type: 'numeric',
     precision: 9,
-    scale: 6
+    scale: 6,
   })
   lon: number;
 
   @OneToMany(() => LocalityUnemployed, (unemployed) => unemployed.locality)
-  unemployed: LocalityUnemployed;
+  unemployed: LocalityUnemployed[];
 
   @OneToMany(() => LocalityDisabled, (disabled) => disabled.locality)
-  disabled: LocalityDisabled;
+  disabled: LocalityDisabled[];
 
   @OneToMany(() => LocalityMigration, (migration) => migration.locality)
-  migration: LocalityMigration;
+  migration: LocalityMigration[];
 
   @OneToMany(() => LocalityPopulation, (population) => population.locality)
-  population: LocalityPopulation;
+  population: LocalityPopulation[];
 }

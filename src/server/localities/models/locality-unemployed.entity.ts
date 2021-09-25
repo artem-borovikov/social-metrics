@@ -14,7 +14,7 @@ export class LocalityUnemployed {
   id: number;
 
   @Column({
-    default: 0
+    nullable: true
   })
   count: number;
 

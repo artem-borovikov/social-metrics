@@ -5,7 +5,8 @@ import { LocalityDisabled } from './models/locality-disabled.entity';
 import { LocalityUnemployed } from './models/locality-unemployed.entity';
 import { LocalityMigration } from './models/locality-migration.entity';
 import { Locality } from './models/locality.entity';
-import {LocalityPopulation} from "./models/locality-population.entity";
+import { LocalityPopulation } from './models/locality-population.entity';
+import { LocalityController } from './locality.controller';
 
 @Module({
   imports: [
@@ -14,9 +15,10 @@ import {LocalityPopulation} from "./models/locality-population.entity";
       LocalityDisabled,
       LocalityUnemployed,
       LocalityMigration,
-        LocalityPopulation,
+      LocalityPopulation,
     ]),
   ],
   providers: [LocalitiesService],
+  controllers: [LocalityController],
 })
 export class LocalitiesModule {}
