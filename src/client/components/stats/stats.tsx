@@ -102,8 +102,6 @@ export function Stats() {
                   ? locality[filter.id] - 1
                   : locality.unemployedScore - 1;
 
-                console.log(scoreType);
-
                 return (
                   <Circle
                     key={locality.id}
@@ -123,6 +121,37 @@ export function Stats() {
           </YMaps>
         </div>
 
+        {/* {
+                value: 'bornOutOfWedlockScore',
+                label: 'Рожденные вне брака',
+              },
+              {
+                value: 'deathsScore',
+                label: 'Смерти',
+              },
+              {
+                value: 'disabledScore',
+                label: 'Инвалиды',
+              },
+              {
+                value: 'divorcedScore',
+                label: 'Разводы',
+              },
+              {
+                value: 'largeFamiliesScore',
+                label: 'Многодетные семьи',
+              },
+              {
+                value: 'poorLargeFamiliesScore',
+                label: 'Многодетные семьи (низкий доход)',
+              },
+              {
+                value: 'singleParentFamiliesScore',
+                label: 'Неполные семьи',
+              },
+              {
+              }, */}
+
         {currentLocality && (
           <div className="stats">
             <h2>
@@ -136,47 +165,53 @@ export function Stats() {
               <thead>
                 <th>Показатель на {new Date().toLocaleDateString()}</th>
                 <th>Значение</th>
+                <th>Балл</th>
               </thead>
               <tbody>
                 <tr>
                   <td>Безработные</td>
                   <td>{currentLocality.unemployedCount}</td>
+                  <td>{currentLocality.unemployedScore}</td>
                 </tr>
                 <tr>
                   <td>Рожденные дети</td>
                   <td>{currentLocality.childrenCount}</td>
+                  <td>{currentLocality.childrenScore}</td>
                 </tr>
                 <tr>
                   <td>Кол-во разводов</td>
                   <td>{currentLocality.divorcesCount}</td>
-                </tr>
-                <tr>
-                  <td>Кол-во семей</td>
-                  <td>{currentLocality.familiesCount}</td>
+                  <td>{currentLocality.divorcesScore}</td>
                 </tr>
                 <tr>
                   <td>Кол-во детей, рожденных вне брака</td>
                   <td>{currentLocality.bornOutOfWedlockCount}</td>
+                  <td>{currentLocality.bornOutOfWedlockScore}</td>
                 </tr>
                 <tr>
                   <td>Кол-во смертей</td>
                   <td>{currentLocality.deathsCount}</td>
+                  <td>{currentLocality.deathsScore}</td>
                 </tr>
                 <tr>
                   <td>Кол-во инвалидов</td>
                   <td>{currentLocality.disabledCount}</td>
+                  <td>{currentLocality.disabledScore}</td>
                 </tr>
                 <tr>
                   <td>Кол-во многодетных семей</td>
                   <td>{currentLocality.largeFamiliesCount}</td>
+                  <td>{currentLocality.largeFamiliesScore}</td>
                 </tr>
                 <tr>
                   <td>Кол-во многодетных семей с доходом ниже МРОТ</td>
                   <td>{currentLocality.poorLargeFamiliesCount}</td>
+                  <td>{currentLocality.poorLargeFamiliesScore}</td>
                 </tr>
                 <tr>
                   <td>Кол-во неполных семей</td>
                   <td>{currentLocality.singleParentFamiliesCount}</td>
+                  <td>{currentLocality.singleParentFamiliesScore}</td>
                 </tr>
               </tbody>
             </table>

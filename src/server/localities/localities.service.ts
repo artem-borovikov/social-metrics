@@ -16,6 +16,18 @@ export class LocalitiesService {
         select l.*,
                population.*,
                lu.count as "unemployedCount",
+
+
+               --              Скор на Детей
+               (
+                 CASE
+                   WHEN population."childrenCount"::real / (population."populationCount"::real / 100) >= 2
+                   THEN 3
+               WHEN lu.count::real / (population."childrenCount"::real / 100) >= 1.5
+                   THEN 2
+               ELSE 1
+               END
+                 )    as "childrenScore",
                
 --              Скор на безработицу
                (
@@ -36,7 +48,7 @@ export class LocalitiesService {
                    THEN 2
                ELSE 1
                END
-                   )    as "divorcedScore",
+                   )    as "divorcesScore",
 -- Дети вне брака
                (
                    CASE
